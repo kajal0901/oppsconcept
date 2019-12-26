@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
-use App\User;
+use App\Repositories\Auth\RegisterRepository;
+use App\Resources\UserResource;
+use Exception;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
@@ -21,6 +23,10 @@ class RegisterController extends Controller
     | provide this functionality without requiring any additional code.
     |
     */
+    /**
+     * @var RegisterRepository
+     */
+    protected $registerRepository;
 
     use RegistersUsers;
 
@@ -32,13 +38,14 @@ class RegisterController extends Controller
     protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
-     * Create a new controller instance.
+     * RegisterController constructor.
      *
-     * @return void
+     * @param RegisterRepository $registerRepository
      */
-    public function __construct()
+    public function __construct(RegisterRepository $registerRepository)
     {
-        $this->middleware('guest');
+        $this->registerRepository = $registerRepository;
+        //  $this->middleware('guest');
     }
 
     /**
@@ -57,17 +64,28 @@ class RegisterController extends Controller
     }
 
     /**
-     * Create a new user instance after a valid registration.
+     * @param Request $request
      *
-     * @param  array  $data
-     * @return \App\User
+     * @return mixed
+     * @throws Exception
      */
-    protected function create(array $data)
+    public function create(Request $request)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+        try {
+
+            $input = $this->validate($request, config('validation-rules.register'));
+
+            $createUser = new UserResource($this->registerRepository->process($input));
+
+            return $this->httpOk([
+                'message' => __('register_success', ['email' => $createUser->email]),
+                'data' => [
+                    'user' => $createUser,
+                ],
+            ]);
+
+        } catch (Exception $e) {
+            throw $e;
+        }
     }
 }

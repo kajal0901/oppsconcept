@@ -5,9 +5,13 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Repositories\Auth\LoginRepository;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
+
     /*
     |--------------------------------------------------------------------------
     | Login Controller
@@ -18,6 +22,10 @@ class LoginController extends Controller
     | to conveniently provide its functionality to your applications.
     |
     */
+    /**
+     * @var LoginRepository
+     */
+    protected $loginRepository;
 
     use AuthenticatesUsers;
 
@@ -28,13 +36,24 @@ class LoginController extends Controller
      */
     protected $redirectTo = RouteServiceProvider::HOME;
 
-    /**
-     * Create a new controller instance.
+    /***
+     * LoginController constructor.
      *
-     * @return void
+     * @param LoginRepository $loginRepository
      */
-    public function __construct()
+    public function __construct(LoginRepository $loginRepository)
     {
-        $this->middleware('guest')->except('logout');
+        $this->loginRepository = $loginRepository;
+     //   $this->middleware('guest')->except('logout');
     }
+
+    public function login(Request $request): JsonResponse
+    {
+       // dd($request->all());
+        $input = $this->validate($request, config('validation-rules.login'));
+        $oUser = $this->loginRepository->process($input);
+
+        return response()->json($oUser, $oUser['code']);
+    }
+
 }

@@ -1,1 +1,0 @@
-<?php echo $__env->yieldContent('content'); ?><?php /**PATH /home/sellnews-php-2/Development/practicals/pms.local/resources/views/layouts/auth.blade.php ENDPATH**/ ?>
