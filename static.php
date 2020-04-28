@@ -1,20 +1,18 @@
 <?php
+
 /**
  * static method directe related to class
  */
-class demo{
+
+/**
+ * Class StaticDemo
+ */
+class StaticDemo
+{
     /**
      * @var int
      */
-    public  static $objectCount = 0;
-
-    /**
-     * @return int
-     */
-    public static function getCount()
-    {
-       return  self::$objectCount;
-    }
+    public static $objectCount = 0;
 
     /**
      * demo constructor.
@@ -23,10 +21,18 @@ class demo{
     {
         self::$objectCount++;
     }
+
+    /**
+     * @return int
+     */
+    public static function getCount()
+    {
+        return self::$objectCount;
+    }
 }
 
-$obj_one = new demo();
-$obj_two = new demo();
-$obj_three = new demo();
+$obj_one = new StaticDemo();
+$obj_two = new StaticDemo();
+$obj_three = new StaticDemo();
 
-echo demo::getCount();
+echo StaticDemo::getCount();

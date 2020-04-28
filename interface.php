@@ -5,29 +5,39 @@
  */
 ini_set('display_errors', 1);
 
-interface Demo{
+/**
+ * Interface Demo
+ */
+interface InterfaceDemo
+{
     public function abc();
+
     public function xyz();
 }
 
-
-class Example implements demo{
+/**
+ * Class Example
+ */
+class Test implements InterfaceDemo
+{
     /**
      * @return string
      */
     public function abc()
     {
-        // TODO: Implement abc() method.
+
         return "abc function";
     }
 
+    /**
+     * @return string
+     */
     public function xyz()
-   {
-       // TODO: Implement xyz() method.
-       return "xyz function";
-   }
+    {
+        return "xyz function";
+    }
 
 }
 
-$obj_one = new Example();
+$obj_one = new Test();
 echo $obj_one->abc();

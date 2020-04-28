@@ -1,6 +1,7 @@
 <?php
 
-class Logger implements LoggerInterface {
+class Logger implements LoggerInterface
+{
 
     /**
      * @param $message

@@ -1,6 +1,7 @@
 <?php
 
-interface LoggerInterface{
+interface LoggerInterface
+{
 
     /**
      * @param $message

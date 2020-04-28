@@ -1,6 +1,7 @@
 <?php
 
-class FileLogger implements LoggerInterface {
+class FileLogger implements LoggerInterface
+{
 
     /**
      * @param $message

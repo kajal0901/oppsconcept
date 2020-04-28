@@ -3,15 +3,26 @@
  * php error display
  */
 ini_set('display_errors', 1);
-abstract class demo{
+
+/**
+ * Class Demo
+ */
+abstract class Demo
+{
     public abstract function test();
 }
 
-class Example extends demo{
+/**
+ * Class Example
+ */
+class Example extends Demo
+{
+    /**
+     * @return string
+     */
     public function test()
     {
-        // TODO: Implement test() method.
-        echo "hello world";
+        return "hello world";
     }
 }
 
